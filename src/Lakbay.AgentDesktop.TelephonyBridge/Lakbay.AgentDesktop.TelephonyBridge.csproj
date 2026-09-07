@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Multi-targeted on purpose (see this repo's README "WCF hosting note"):
+    the WCF *contracts* and the service implementation are shared source,
+    but the only runtime that can reliably host a duplex NetTcp WCF service
+    today is classic .NET Framework (CoreWCF's NetTcp binding does not yet
+    support duplex/callback contracts — see README for the verification
+    trail). net48 is what Lakbay.AgentDesktop.TelephonyBridge.Host actually
+    runs on; net10.0 is what lets the modern .NET client-side WCF packages
+    (consumed by the WPF app and the Simulator) compile against the exact
+    same contract types instead of a hand-duplicated copy.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net48;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Lakbay.AgentDesktop.TelephonyBridge</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net48'">
+    <!-- net48 gets System.ServiceModel from the framework itself; modern .NET needs these. -->
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Forces a patched version on both TFMs - System.ServiceModel.Primitives 8.1.2
+         transitively pulls System.Security.Cryptography.Xml 8.0.2, which carries several
+         high-severity advisories (GHSA-23rf-6693-g89p and others). No code here calls
+         this package directly; it's referenced only to override that resolution. -->
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.11" />
+  </ItemGroup>
+
+</Project>

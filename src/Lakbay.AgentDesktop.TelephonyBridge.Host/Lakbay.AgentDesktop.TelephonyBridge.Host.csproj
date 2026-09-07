@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    net48, deliberately: hosts the duplex NetTcp WCF service. See the
+    TelephonyBridge project's own csproj comment and this repo's README for
+    why the host runs on classic .NET Framework rather than CoreWCF on
+    modern .NET (CoreWCF's NetTcp binding does not support duplex/callback
+    contracts as of the version available when this was built).
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Lakbay.AgentDesktop.TelephonyBridge.Host</RootNamespace>
+    <AssemblyName>Lakbay.AgentDesktop.TelephonyBridge.Host</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lakbay.AgentDesktop.TelephonyBridge\Lakbay.AgentDesktop.TelephonyBridge.csproj" />
+  </ItemGroup>
+
+</Project>

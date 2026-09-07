@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Lakbay.AgentDesktop.TelephonyBridge.Host/Lakbay.AgentDesktop.TelephonyBridge.Host.csproj" />
+    <Project Path="src/Lakbay.AgentDesktop.TelephonyBridge.Simulator/Lakbay.AgentDesktop.TelephonyBridge.Simulator.csproj" />
+    <Project Path="src/Lakbay.AgentDesktop.TelephonyBridge/Lakbay.AgentDesktop.TelephonyBridge.csproj" />
+    <Project Path="src/Lakbay.AgentDesktop/Lakbay.AgentDesktop.csproj" />
+  </Folder>
+</Solution>

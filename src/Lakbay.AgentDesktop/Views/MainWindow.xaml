@@ -1,0 +1,60 @@
+<Window x:Class="Lakbay.AgentDesktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lakbay Agent Desktop" Height="640" Width="960"
+        Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Incoming call / screen-pop panel -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding IncomingCall.DisplayGreeting}" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text="{Binding BridgeStatus}" Foreground="Gray" Margin="0,4,0,0" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="End Call" Command="{Binding EndCallCommand}"
+                        VerticalAlignment="Center" Background="{StaticResource DangerBrush}" />
+            </Grid>
+        </Border>
+
+        <!-- Destination lookup -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBlock Text="Destination code:" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBox Text="{Binding Availability.DestinationCode, UpdateSourceTrigger=PropertyChanged}" Width="120" Padding="4" />
+            <Button Content="Load Availability" Command="{Binding Availability.LoadOfferCommand}" Margin="8,0,0,0" />
+            <TextBlock Text="{Binding Availability.DestinationName}" FontWeight="Bold" VerticalAlignment="Center" Margin="16,0,0,0" />
+            <TextBlock Text="{Binding Availability.ErrorMessage}" Foreground="{StaticResource DangerBrush}" VerticalAlignment="Center" Margin="16,0,0,0" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!-- Availability browse panel -->
+        <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="8">
+            <ListView ItemsSource="{Binding Availability.Items}" SelectedItem="{Binding Availability.SelectedItem}"
+                      BorderThickness="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding KindDisplay}" Width="120" />
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="480" />
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding PriceDisplay}" Width="150" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Book action -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <TextBlock Text="Only Packages are bookable directly - accommodations/activities inform the call."
+                       Foreground="Gray" VerticalAlignment="Center" Margin="0,0,12,0" FontStyle="Italic" />
+            <Button Content="Book Selected Package for Caller" Command="{Binding BookSelectedItemCommand}" Padding="16,8" />
+        </StackPanel>
+    </Grid>
+</Window>
