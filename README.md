@@ -48,6 +48,22 @@ no automated tests yet, accommodation pricing is a known simplification,
 and the real-backend swap is a manual one-line change rather than the
 shipped default.
 
+## E2E testing note (2026-09-12)
+
+This repo's own WPF UI was **not** re-verified live in this session's
+platform-wide E2E pass — there's no headless/automated way to drive a
+Windows desktop app the way a browser can be driven for `Lakbay.Web`. What
+*was* re-verified live this session is the exact HTTP contract this app's
+`AgentOpsHttpClient` calls: `POST /api/bookings/confirm` (now over gRPC on
+`Lakbay.AgentOps`'s side, ADR-0027 — invisible to this app, no contract
+change) and `GET /api/agent-offer/{destinationId}`, both confirmed working
+against a real running `Lakbay.AgentOps` proxying to a real
+`Lakbay.Booking`. See
+[`../Lakbay.Docs/docs/05_DEVLOG.md`](../Lakbay.Docs/docs/05_DEVLOG.md)'s
+2026-09-12 entry. If this app's own screen-pop/booking UI needs re-verifying
+by actually looking at it, that has to happen on this machine directly, not
+through an AI session.
+
 ## Path to production
 
 - Swap `FakeAgentOpsClient` for `AgentOpsHttpClient` once `Lakbay.AgentOps`
